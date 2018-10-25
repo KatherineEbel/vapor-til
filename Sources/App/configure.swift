@@ -20,14 +20,18 @@ public func configure(
   let databaseConfig = PostgreSQLDatabaseConfig(
     hostname: "localhost",
     username: "vapor",
-    database: "vapor",
-    password: "password"
+    database: "vapor"
   )
   let database = PostgreSQLDatabase(config: databaseConfig)
   databases.add(database: database, as: .psql)
   services.register(database)
 
   var migrations = MigrationConfig()
+  migrations.add(model: User.self, database: .psql)
   migrations.add(model: Acronym.self, database: .psql)
   services.register(migrations)
+  
+  var commandConfig = CommandConfig.default()
+  commandConfig.useFluentCommands()
+  services.register(commandConfig)
 }
