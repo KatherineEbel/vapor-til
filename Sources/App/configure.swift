@@ -16,15 +16,24 @@ public func configure(
   services.register(middlewares)
 
   // configure a database
+  let databaseName: String
+  if env == .testing {
+    databaseName = "vapor-test"
+  } else {
+    databaseName = "vapor"
+  }
   var databases = DatabasesConfig()
   let databaseConfig = PostgreSQLDatabaseConfig(
     hostname: "localhost",
     username: "vapor",
-    database: "vapor"
+    database: databaseName
   )
+
   let database = PostgreSQLDatabase(config: databaseConfig)
   databases.add(database: database, as: .psql)
   services.register(database)
+  
+
 
   var migrations = MigrationConfig()
   migrations.add(model: User.self, database: .psql)
