@@ -45,6 +45,15 @@ final class UserTests: XCTestCase {
     XCTAssertEqual(users[0].username, usersUsername)
     XCTAssertEqual(users[0].id, receivedUser.id)
   }
+
+  func testGettingASingleUserFromTheAPI() throws {
+    let user = try User.create(name: usersName, username: usersUsername, on: conn)
+    let receivedUser = try app.getResponse(to: "\(usersURI)\(user.id!)", decodeTo: User.self)
+
+    XCTAssertEqual(receivedUser.name, usersName)
+    XCTAssertEqual(receivedUser.username, usersUsername)
+    XCTAssertEqual(receivedUser.id, user.id)
+  }
   
   func testGettingAUsersAcronymsFromTheAPI() throws {
     let user = try User.create(on: conn)
@@ -58,4 +67,11 @@ final class UserTests: XCTestCase {
     XCTAssertEqual(acronyms[0].short, acronymShort)
     XCTAssertEqual(acronyms[0].long, acronymLong)
   }
+
+  static let allTests = [
+    ("testUsersCanBeRetrievedFromAPI", testUsersCanBeRetrievedFromAPI),
+    ("testUserCanBeSavedWithAPI", testUserCanBeSavedWithAPI),
+    ("testGettingASingleUserFromTheAPI", testGettingASingleUserFromTheAPI),
+    ("testGettingAUsersAcronymsFromTheAPI", testGettingAUsersAcronymsFromTheAPI)
+  ]
 }

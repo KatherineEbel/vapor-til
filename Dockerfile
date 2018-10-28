@@ -4,7 +4,7 @@ WORKDIR /package
 
 COPY . ./
 
-RUN swift package --enable-prefetching fetch
+RUN swift package resolve
 RUN swift package clean
 CMD swift test
 
