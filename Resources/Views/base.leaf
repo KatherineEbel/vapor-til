@@ -9,6 +9,7 @@
     #if(title == "Edit Acronym") {
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     }
+    <link rel="stylesheet" href="/styles/style.css">
     <title>#(title) | Acronyms</title>
 </head>
 <body>
@@ -36,11 +37,26 @@
                 <a href="/acronyms/create" class="nav-link">Create An Acronym</a>
                 </li>
             </ul>
+            #if(userLoggedIn) {
+                <form method="post" action="/logout" class="form-inline">
+                    <input type="submit" class="nav-link btn btn-link" value="Log out" />
+                </form>
+            }
         </div>
     </nav>
     <div class="container mt-3">
         #get(content)
     </div>
+    #if(showCookieMessage) {
+        <footer id="cookie-footer">
+            <div id="cookieMessage" class="container">
+                <span class="muted">This site uses cookies! To accept this, click <a href="#"
+                                                                                     onclick="cookiesConfirmed()"
+                >OK</a></span>
+            </div>
+            <script src="/scripts/cookies.js"></script>
+        </footer>
+    }
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     #if(title == "Edit Acronym") {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
